@@ -1,0 +1,17 @@
+{
+  "name": "plano-treino-pwa",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "description": "PWA de treino com push de fim de descanso via Netlify Functions",
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^11.1.4",
+    "web-push": "^3.6.7"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

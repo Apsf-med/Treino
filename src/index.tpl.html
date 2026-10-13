@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0d12">
+<meta name="description" content="Plano de treino de hipertrofia com personagem 3D, cronômetro de descanso e alternativas de exercícios.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Treino">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<title>Plano de Treino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+{{CSS}}
+</style>
+</head>
+<body>
+
+<div id="pageTreino">
+<header class="hero" id="hero">
+  <canvas id="hero3d"></canvas>
+  <div class="hero-txt">
+    <span class="tag">Hipertrofia + Condicionamento</span>
+    <h1>PLANO DE<br><em>TREINO</em></h1>
+    <p>5 dias de musculação • 2 circuitos AMRAP</p>
+    <div class="week" id="weekBox"></div>
+  </div>
+</header>
+</div>
+
+<main>
+  <section id="tab-treino" class="tab active">
+    <div class="days" id="days"></div>
+    <div id="dayView"></div>
+  </section>
+
+  <section id="tab-amrap" class="tab">
+    <div class="amhead">
+      <canvas id="kb3d"></canvas>
+      <div>
+        <span class="tag">Quarta (opcional) • Sábado</span>
+        <h2>Circuito AMRAP</h2>
+        <p>Máximo de rodadas em <b id="amMinLbl">20</b> min, sem sacrificar a técnica.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="durs" id="amDurs"><button data-d="10">10 min</button><button data-d="15">15 min</button><button data-d="20" class="on">20 min</button></div>
+      <div class="bigclock" id="amClock">20:00</div>
+      <div class="ambar"><i id="amBar"></i></div>
+      <div class="rounds">
+        <button id="amMinus" aria-label="Menos uma rodada">−</button>
+        <div><div id="amRounds">0</div><small>rodadas</small></div>
+        <button id="amPlus" aria-label="Mais uma rodada">+1</button>
+      </div>
+      <div class="ctrl"><button id="amStart" class="primary">Iniciar</button><button id="amReset">Zerar</button></div>
+      <p id="amBest" class="mut" style="text-align:center;font-size:13px;margin:12px 0 0"></p>
+    </div>
+    <div class="card">
+      <h3>Estações</h3>
+      <ol class="circ" id="amCirc"></ol>
+      <button id="amStation">✓ Estação concluída</button>
+      <p class="mut" style="font-size:12px;margin:8px 0 0">Ao concluir a 4ª estação, a rodada é contada sozinha. Toque em ↔ para ver alternativas.</p>
+    </div>
+    <div class="card">
+      <h3>Progressão de 4 semanas</h3>
+      <table>
+        <tr><td>S1</td><td>Estabelecer seu número de rodadas em 20 min.</td></tr>
+        <tr><td>S2</td><td>Tentar aumentar 1 rodada mantendo a técnica.</td></tr>
+        <tr><td>S3</td><td>Aumentar repetições dentro das faixas, se estiver confortável.</td></tr>
+        <tr><td>S4</td><td>Superar o melhor resultado anterior com boa execução.</td></tr>
+      </table>
+    </div>
+    <div class="card"><h3>Histórico</h3><ul id="amHist"></ul></div>
+    <div class="tipbox">⚠️ Pare ou reduza o ritmo se a técnica começar a deteriorar. O circuito é complementar — a musculação continua sendo a base.</div>
+  </section>
+
+  <section id="tab-dicas" class="tab">
+    <div class="sechead"><span class="tag">Toque nos cards</span><h2>Regras de execução</h2><p>O que faz o treino funcionar de verdade.</p></div>
+    <div class="flips" id="flips"></div>
+    <div class="card">
+      <h3>Como fazer bi-set</h3>
+      <ul class="clean">
+        <li>Exercício A → <b>sem descanso</b> → exercício B → descanse → repita.</li>
+        <li>Usados só nos isoladores. Supino reto, remada curvada, agachamento e terra romeno ficam isolados, com descanso completo.</li>
+        <li>No app: conclua a série do A e o app te manda direto ao B; ao concluir o B, o descanso começa sozinho.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Aparelho ocupado?</h3>
+      <ul class="clean">
+        <li>Toque em <b>🚧 Aparelho ocupado</b> no exercício para ver 3–4 substitutos com o mesmo padrão de movimento.</li>
+        <li>A <b>equivalência</b> indica o quanto a alternativa reproduz músculos, padrão, amplitude e intensidade do original.</li>
+        <li>A troca vale só para hoje. O histórico guarda o que foi planejado e o que você realmente executou.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>O que mudou em relação à versão anterior</h3>
+      <ul class="clean">
+        <li>Aquecimento específico em cada dia.</li>
+        <li>Deload a cada 4–6 semanas (−40% de volume).</li>
+        <li>Descanso definido por exercício.</li>
+        <li>Orientação de sono e proteína.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="tab-nutri" class="tab">
+    <div class="sechead"><span class="tag">Alimentação</span><h2>Comida que sustenta o treino</h2><p>Dicas práticas + receitas ricas em proteína.</p></div>
+    <div class="card calc">
+      <h3>Calculadora rápida</h3>
+      <label>Seu peso <input id="peso" type="number" inputmode="decimal" placeholder="75"> kg</label>
+      <div class="cgrid" id="calcOut"></div>
+    </div>
+    <div class="card">
+      <h3>Dicas gerais</h3>
+      <ul class="clean" id="nutriTips"></ul>
+    </div>
+    <div id="recipes"></div>
+    <p class="mut" style="font-size:12px;margin:12px 0 24px">Valores de proteína aproximados — use como ponto de partida.</p>
+  </section>
+
+  <section id="tab-prog" class="tab">
+    <div class="sechead"><span class="tag">Seu histórico</span><h2>Progresso</h2><p>Séries, cargas e trocas de exercício registradas neste aparelho.</p></div>
+    <div class="stats" id="stats"></div>
+    <div class="card"><h3>Treinos recentes</h3><div id="sessList"></div></div>
+    <div class="card"><h3>Melhores cargas</h3><div id="recList"></div></div>
+
+    <div class="sechead" style="padding-top:8px"><h2 style="font-size:32px">App e notificações</h2></div>
+    <div class="card">
+      <h3>📲 Instalar na tela inicial</h3>
+      <div class="setrow"><div>Status<small id="instHint"></small></div><span class="pill" id="instPill">—</span></div>
+      <div class="btnrow"><button id="btnInstall" style="display:none">Instalar app</button></div>
+      <ol class="ios-steps" id="iosSteps" style="display:none">
+        <li>Abra este site no <b>Safari</b>.</li>
+        <li>Toque em <b>Compartilhar</b> (quadrado com seta).</li>
+        <li>Escolha <b>Adicionar à Tela de Início</b> → Adicionar.</li>
+        <li>Abra o app pelo ícone e ative as notificações abaixo.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>🔔 Alertas de descanso</h3>
+      <div class="setrow"><div>Permissão<small id="permHint"></small></div><span class="pill" id="permPill">—</span></div>
+      <div class="setrow"><div>Push em segundo plano<small id="pushHint"></small></div><span class="pill" id="pushPill">—</span></div>
+      <div class="btnrow"><button id="btnNotif" class="primary">Ativar notificações</button><button id="btnTest">Enviar teste (5 s)</button><button id="btnNotifOff">Desativar</button></div>
+      <label class="mut" style="display:block;font-size:13px;margin-top:12px">Quando agendar o push
+        <select class="sel" id="pushMode">
+          <option value="always">Sempre que o descanso começar (mais confiável)</option>
+          <option value="background">Só quando o app sai da tela (economiza créditos)</option>
+        </select>
+      </label>
+      <label class="mut" style="display:flex;align-items:center;gap:8px;font-size:13px;margin-top:12px"><input type="checkbox" id="soundOn" checked> Som e vibração no fim do descanso</label>
+    </div>
+    <div class="card">
+      <h3>☁️ Backup e sincronização</h3>
+      <div class="setrow"><div>Servidor<small id="syncHint">Seus dados ficam salvos neste aparelho.</small></div><span class="pill" id="syncPill">—</span></div>
+      <div class="mut" style="font-size:12px;margin-top:8px">Código de sincronização (use para restaurar em outro aparelho):</div>
+      <div class="code" id="syncCode"></div>
+      <div class="btnrow"><button id="btnSyncUp">Enviar backup agora</button><button id="btnSyncDown">Restaurar com código</button></div>
+      <div class="btnrow"><button id="btnExport">Exportar arquivo</button><label class="btn">Importar arquivo<input type="file" id="fileImport" accept="application/json" hidden></label></div>
+    </div>
+    <p class="mut" style="font-size:12px;margin:4px 0 24px">Versão 3 • PWA • dados locais com sincronização opcional.</p>
+  </section>
+</main>
+
+<nav class="bottom" id="nav">
+  <button data-tab="treino" class="on"><i>🏋️</i>Treino</button>
+  <button data-tab="amrap"><i>⚡</i>AMRAP</button>
+  <button data-tab="prog"><i>📈</i>Progresso</button>
+  <button data-tab="dicas"><i>💡</i>Dicas</button>
+  <button data-tab="nutri"><i>🥗</i>Nutrição</button>
+</nav>
+
+<div id="rest" class="rest" aria-live="polite">
+  <div class="rest-top"><span class="rtitle" id="restTitle">Descanso</span><span id="restMiniTime">0:00</span><button id="restMin" aria-label="Minimizar">▾</button></div>
+  <div class="ringwrap">
+    <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="trk"/><circle cx="60" cy="60" r="52" class="prg" id="ring"/></svg>
+    <div class="ringtxt"><div id="restTime">0:00</div><small id="restState">restante</small></div>
+  </div>
+  <div class="next" id="restNext"></div>
+  <div class="rctrl4"><button id="rPause">⏸ Pausar</button><button id="rRestart">↺ Reiniciar</button><button data-adj="15">+15s</button><button data-adj="30">+30s</button></div>
+  <div class="rctrl"><button id="restSkip">Pular descanso</button></div>
+  <button id="rNext" class="nextset">▶ Iniciar próxima série</button>
+  <button id="rNotif" class="notifchip">🔔 Avisar no celular quando o descanso terminar</button>
+</div>
+
+<div id="alts" class="viewer alts" aria-hidden="true">
+  <div class="vpanel" role="dialog" aria-label="Alternativas">
+    <div class="vhead"><div><small>Aparelho ocupado? Alternativas para</small><h3 id="aName"></h3></div><button id="aClose" aria-label="Fechar">✕</button></div>
+    <div id="aBody"></div>
+  </div>
+</div>
+
+<div id="viewer" class="viewer" aria-hidden="true">
+  <div class="vpanel" role="dialog" aria-label="Execução em 3D">
+    <div class="vhead"><div><small id="vDay"></small><h3 id="vName"></h3></div><button id="vClose" aria-label="Fechar">✕</button></div>
+    <div class="vstage"><canvas id="coach3d"></canvas><div class="vrep"><b id="vRep">1</b><small>rep</small></div><div class="vhint">☝️ arraste para girar a câmera</div></div>
+    <div class="vmeta" id="vMeta"></div>
+    <div class="mus" id="vMus"></div>
+    <p class="vcue" id="vCue"></p>
+    <div class="vctrl"><button id="vPrev" aria-label="Anterior">◀</button><button id="vPlay" class="primary">❚❚ Pausar</button><button id="vSpeed">1x</button><button id="vNext" aria-label="Próximo">▶</button></div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+{{COACH}}
+</script>
+<script>
+{{DATA}}
+{{EXDB}}
+{{APP}}
+</script>
+</body>
+</html>
